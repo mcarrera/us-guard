@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "US Guard",
+  "version": "1.0",
+  "description": "Banking-only guard: US IP required, Eastern Time spoofed.",
+  "permissions": [
+      "alarms",
+      "declarativeNetRequest",
+      "scripting"
+  ],
+  "host_permissions": [
+      "https://ipwho.is/*",
+       "https://ipapi.co/*",
+       "https://ipinfo.io/*",
+       "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "geo_allow",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["spoof.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}
